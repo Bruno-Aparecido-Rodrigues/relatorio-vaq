@@ -7,20 +7,28 @@ spring:
       auto-index-creation: true
       uri: mongodb://localhost:27017/vaquinha-relatorio?directConnection=true
   rabbitmq:
-    # CloudAMQP. A senha NÃO fica no repositório: defina a variável RABBITMQ_PASSWORD
     host: ${RABBITMQ_HOST:jaragua.lmq.cloudamqp.com}
     port: ${RABBITMQ_PORT:5671}
-    username: ${RABBITMQ_USERNAME:ejsjhrca}
+    username: ${RABBITMQ_USERNAME:kegxjddm}
     password: ${RABBITMQ_PASSWORD}
-    virtual-host: ${RABBITMQ_VHOST:ejsjhrca}
+    virtual-host: ${RABBITMQ_VHOST:kegxjddm}
     ssl:
       enabled: ${RABBITMQ_SSL:true}
 
 event:
   exchange: vaquinha.eventos
+
+  retry:
+    exchange: relatorio.retry
+    max-retries: 3 # 3 novas tentativas
+    delay: 10s #10s entre elas
   operacao:
     queue: relatorio.operacoes
+    dead-letter: relatorio.operacoes.dead-letter
+    parking-lot: relatorio.operacoes.parking-lot
     routing-key: operacao.doacao
   campanha:
     queue: relatorio.campanha-eventos
+    dead-letter: relatorio.campanha-eventos.dead-letter
+    parking-lot: relatorio.campanha-eventos.parking-lot
     routing-key: campanha.*
