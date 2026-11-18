@@ -1,0 +1,10 @@
+# O que NÃO vai para dentro do build da imagem
+**/target/
+.git/
+.github/
+.idea/
+*.iml
+.vscode/
+testes/
+*.md
+.env
